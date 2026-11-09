@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102a35">
+  <meta name="description" content="Application locale de rédaction, sauvegarde et export des observations médicales.">
+  <title>ObsMéd — Observations médicales</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand-block">
+        <div class="brand-mark" aria-hidden="true"><span>+</span></div>
+        <div>
+          <div class="brand-name">Obs<span>Méd</span></div>
+          <div class="brand-caption">Carnet d'observations</div>
+        </div>
+      </div>
+
+      <button class="btn btn-primary btn-new" id="btn-new" type="button">
+        <span class="btn-icon">＋</span> Nouvelle observation
+      </button>
+
+      <div class="sidebar-heading">
+        <span>MES OBSERVATIONS</span>
+        <span class="count-pill" id="observation-count">0</span>
+      </div>
+      <label class="search-box">
+        <span aria-hidden="true">⌕</span>
+        <input type="search" id="search-observations" placeholder="Rechercher un patient…" autocomplete="off">
+      </label>
+      <div class="observation-list-wrap">
+        <ul class="observation-list" id="observation-list" aria-label="Liste des observations"></ul>
+        <div class="empty-list" id="empty-list">
+          <div class="empty-icon">▤</div>
+          <strong>Aucune observation</strong>
+          <p>Créez un dossier pour commencer.</p>
+        </div>
+      </div>
+
+      <div class="sidebar-bottom">
+        <div class="storage-status"><span class="status-dot"></span><span>Stockage local activé</span></div>
+        <button class="sidebar-link" id="btn-export-backup" type="button">⇩ Exporter une sauvegarde</button>
+        <button class="sidebar-link" id="btn-import-backup" type="button">⇧ Restaurer une sauvegarde</button>
+        <input id="backup-file" type="file" accept=".json,application/json" hidden>
+        <div class="privacy-note">Vos dossiers restent dans ce navigateur. Aucun compte ni serveur n'est utilisé.</div>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="mobile-menu" id="mobile-menu" type="button" aria-label="Afficher le menu">☰</button>
+          <div class="breadcrumb"><span>Dossiers</span><span class="crumb-separator">/</span><strong id="breadcrumb-current">Nouvelle observation</strong></div>
+        </div>
+        <div class="topbar-actions">
+          <span class="save-indicator" id="save-indicator"><span class="status-dot"></span> Brouillon</span>
+          <button class="btn btn-quiet" id="btn-save" type="button"><span>✓</span> Enregistrer</button>
+          <button class="btn btn-dark" id="btn-pdf" type="button"><span>▧</span> Exporter en PDF</button>
+        </div>
+      </header>
+
+      <div class="workspace">
+        <section class="page-intro">
+          <div>
+            <div class="eyebrow">DOSSIER CLINIQUE</div>
+            <h1 id="page-title">Nouvelle observation</h1>
+            <p>Interrogatoire, examen clinique systématique et synthèse diagnostique.</p>
+          </div>
+          <div class="intro-meta">
+            <span class="meta-label">DATE DE L'OBSERVATION</span>
+            <strong id="today-label">—</strong>
+          </div>
+        </section>
+
+        <div class="notice notice-info">
+          <span class="notice-icon">ⓘ</span>
+          <div><strong>Document de travail clinique.</strong> Renseignez uniquement les éléments interrogés ou réellement examinés. Les champs non évalués peuvent rester vides.</div>
+        </div>
+
+        <form id="observation-form" autocomplete="off">
+          <div id="form-sections"></div>
+        </form>
+
+        <section class="attachments-card" aria-labelledby="attachments-title">
+          <div class="attachments-header">
+            <div>
+              <div class="eyebrow">DOCUMENTS ASSOCIÉS</div>
+              <h2 id="attachments-title">Pièces jointes</h2>
+              <p>Ajoutez un ancien compte rendu ou un PDF d'observation au dossier actuel.</p>
+            </div>
+            <label class="btn btn-outline upload-label" for="pdf-upload">＋ Ajouter un PDF</label>
+            <input type="file" id="pdf-upload" accept="application/pdf,.pdf" multiple hidden>
+          </div>
+          <div class="pdf-import-note">Un PDF importé est conservé comme pièce jointe. Son texte n'est pas transformé automatiquement en champs modifiables : pour reprendre les données dans le formulaire, saisissez-les ici ou restaurez une sauvegarde JSON créée par ObsMéd.</div>
+          <div id="attachment-list" class="attachment-list">
+            <div class="attachments-empty">Aucun document joint à cette observation.</div>
+          </div>
+        </section>
+
+        <footer class="page-footer">
+          <span>ObsMéd · Outil local d'aide à la rédaction</span>
+          <span>Les données ne sont pas synchronisées en ligne.</span>
+        </footer>
+      </div>
+    </main>
+  </div>
+
+  <div id="toast-region" class="toast-region" aria-live="polite" aria-atomic="true"></div>
+  <script src="app.js"></script>
+</body>
+</html>
